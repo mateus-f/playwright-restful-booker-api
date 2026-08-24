@@ -1,6 +1,6 @@
 @api @auth
 Feature: Autenticação na API Restful Booker
-  Como uma aplicação consumidora da API
+  Como uma aplicação consumidora da API Restful Booker
   Quero autenticar um usuário
   Para obter um token de acesso para futuras requisições
 
