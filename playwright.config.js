@@ -23,7 +23,5 @@ export default defineConfig({
     baseURL: 'https://restful-booker.herokuapp.com',
     trace: 'on-first-retry',
   },
-
-  projects: []
 });
 
