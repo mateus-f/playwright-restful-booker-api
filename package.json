@@ -4,10 +4,15 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test:api": "playwright test test/api",
-		"test:auth": "playwright test test/api/auth",
-		"test:booking": "playwright test test/api/booking",
-		"test:ping": "playwright test test/api/ping"
+		"test:api": "playwright test tests/api/",
+		"test:auth": "playwright test tests/api/auth/",
+		"test:booking": "playwright test tests/api/booking/",
+		"test:ping": "playwright test tests/api/ping/",
+		"test:smoke": "playwright test --grep @smoke",
+		"test:funcional": "playwright test --grep @funcional",
+		"test:contrato": "playwright test --grep @contrato",
+		"test:excecao": "playwright test --grep @excecao",
+		"test:seguranca": "playwright test --grep @seguranca"
 	},
 	"keywords": [],
 	"author": "",
