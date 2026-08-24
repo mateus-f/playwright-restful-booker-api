@@ -6,5 +6,6 @@ Feature: Health check da API Restful Booker
 
   @smoke @funcional
   Scenario: Verificar a disponibilidade da API
+    Given que a API esteja operacional
     When eu enviar uma requisição "GET" para a rota "/ping"
     Then o código de status HTTP retornado deve ser 201
