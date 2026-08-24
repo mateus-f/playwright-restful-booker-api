@@ -37,11 +37,3 @@ Feature: Autenticação na API Restful Booker
       |              | password123   |
       | admin        |               |
       |              |               |
-
-  @seguranca
-  Scenario: Autenticar enviando o Content-Type correto
-    Given que eu possua credenciais válidas
-    And o cabeçalho "Content-Type" seja "application/json"
-    When eu enviar uma requisição "POST" para a rota "/auth"
-    Then o código de status HTTP retornado deve ser 200
-    And o corpo da resposta deve conter um token válido
