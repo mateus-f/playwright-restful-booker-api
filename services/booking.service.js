@@ -1,10 +1,9 @@
-import { expect } from "@playwright/test";
-
-export class BookingService
-{
-  constructor(request){
+export class BookingService {
+  constructor(request) {
     this.request = request;
-    this.response = null;
-    this.responseBody = null;
+  }
+
+  async getBookings() {
+    return await this.request.get("/booking");
   }
 }
