@@ -9,17 +9,19 @@ Feature: Gestão de reservas
 
   @smoke @funcional
   Scenario: Consultar todos os identificadores de reservas
+    Given que eu possua uma consulta válida de identificadores de reservas
     When eu enviar uma requisição "GET" para a rota "/booking"
     Then o código de status HTTP retornado deve ser 200
-    And a resposta deve ser uma lista de reservas
-    And cada item da resposta deve conter o campo "bookingid"
-    And o campo "bookingid" deve ser numérico
+    And a resposta deve conter os identificadores das reservas existentes
 
   @contrato
   Scenario: Validar o contrato da consulta de identificadores
+    Given que eu possua uma consulta válida de identificadores de reservas
     When eu enviar uma requisição "GET" para a rota "/booking"
     Then o código de status HTTP retornado deve ser 200
-    And o corpo da resposta deve manter os campos obrigatórios do contrato de sucesso
+    And a resposta deve ser uma lista de objetos
+    And cada objeto da resposta deve conter o campo "bookingid"
+    And o campo "bookingid" deve ser numérico
 
   @funcional
   Scenario: Filtrar reservas pelo nome do hóspede
@@ -236,4 +238,4 @@ Feature: Gestão de reservas
     Given que eu informe um identificador de reserva inexistente
     And que eu possua uma autorização válida para exclusão
     When eu enviar uma requisição "DELETE" para a rota "/booking/{id_reserva}"
-    Then o código de status HTTP retornado deve ser 405 
+    Then o código de status HTTP retornado deve ser 405
