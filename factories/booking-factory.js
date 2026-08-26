@@ -5,7 +5,7 @@ export class BookingFactory {
     return lastname ? { lastname } : { firstname };
   }
 
-  static createDateFilter(checkin = "2026-01-01", checkout = "2026-01-10") {
+  static createDateFilter(checkin = "2026-01-01", checkout = "") {
     if (checkin && checkout) return { checkin, checkout };
     return checkout ? { checkout } : { checkin };
   }
