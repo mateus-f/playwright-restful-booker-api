@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import { test } from "../../../fixtures/api.fixture";
 import { BookingFactory } from "../../../factories/booking-factory";
 
-test.describe("Booking", () => {
+test.describe("Listagem de ID's de reservas", () => {
 
   test.beforeEach(async ({ pingService }) => {
     const response = await pingService.getPing();
