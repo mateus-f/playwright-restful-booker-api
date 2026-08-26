@@ -246,4 +246,27 @@ test.describe("Listagem de ID's de reservas", () => {
       }
     });
   });
-});
+
+  test("Consultar reservas sem resultados correspondentes", { tag: ["@excecao"] }, async ({ bookingService }) => {
+
+    const filterParams = BookingFactory.createNameFilter("NomeInexistente");
+
+    await test.step(`Given que eu informe o nome de hóspede "${filterParams.firstname}"`, () => {
+      expect(bookingService).toBeDefined();
+    });
+
+    const response = await test.step(`When eu enviar uma requisição "GET" para a rota "/booking?firstname=${filterParams.firstname}"`, async () => {
+      return bookingService.getBookingsWithParams(filterParams);
+    });
+
+    await test.step("Then o código de status HTTP retornado deve ser 200", () => {
+      expect(response.status()).toBe(200);
+    });
+
+    const responseBody = await response.json();
+
+    await test.step(`And a resposta deve ser uma lista vazia`, async () => {
+      expect(responseBody.length).toBe(0);
+    });
+  });
+})
