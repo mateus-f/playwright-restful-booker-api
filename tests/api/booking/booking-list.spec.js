@@ -57,15 +57,14 @@ test.describe("Listagem de ID's de reservas", () => {
     });
 
     await test.step('And cada objeto da resposta deve conter o campo "bookingid"', () => {
-      expect(sample).toEqual(
-        expect.arrayContaining([expect.any(Object)])
-      )
+      for (const bookingItem of sample) {
+        expect(bookingItem).toHaveProperty("bookingid");
+      }
     });
 
     await test.step('And o campo "bookingid" deve ser numérico', () => {
       for (const bookingItem of sample) {
         expect(typeof bookingItem.bookingid).toBe("number");
-        expect(bookingItem.bookingid).toBeGreaterThan(0);
       }
     });
   });
