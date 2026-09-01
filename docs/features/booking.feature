@@ -77,12 +77,7 @@ Feature: Gestão de reservas
     Given que eu possua o identificador de uma reserva existente
     When eu enviar uma requisição "GET" para a rota "/booking/{id_reserva}"
     Then o código de status HTTP retornado deve ser 200
-    And o corpo da resposta deve conter as chaves "firstname", "lastname", "totalprice", "depositpaid", "bookingdates" e "additionalneeds"
-    And as chaves "firstname" e "lastname" devem possuir valores textuais
-    And a chave "totalprice" deve possuir um valor numérico
-    And a chave "depositpaid" deve possuir um valor booleano
-    And a chave "bookingdates" deve possuir as chaves "checkin" e "checkout" com valores de data válidos
-    And a chave "additionalneeds" deve possuir um valor textual
+    And o corpo da resposta deve manter os campos obrigatórios do contrato de sucesso
 
   @excecao
   Scenario Outline: Consultar uma reserva inexistente ou inválida
