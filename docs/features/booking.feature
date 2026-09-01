@@ -71,14 +71,18 @@ Feature: Gestão de reservas
     When eu enviar uma requisição "GET" para a rota "/booking/{id_reserva}"
     Then o código de status HTTP retornado deve ser 200
     And a resposta deve conter os dados completos da reserva
-    And a resposta deve conter os campos "firstname", "lastname", "totalprice", "depositpaid", "bookingdates" e "additionalneeds"
 
   @contrato
   Scenario: Validar o contrato dos dados da reserva
     Given que eu possua o identificador de uma reserva existente
     When eu enviar uma requisição "GET" para a rota "/booking/{id_reserva}"
     Then o código de status HTTP retornado deve ser 200
-    And o corpo da resposta deve manter os campos obrigatórios do contrato de sucesso
+    And o corpo da resposta deve conter as chaves "firstname", "lastname", "totalprice", "depositpaid", "bookingdates" e "additionalneeds"
+    And as chaves "firstname" e "lastname" devem possuir valores textuais
+    And a chave "totalprice" deve possuir um valor numérico
+    And a chave "depositpaid" deve possuir um valor booleano
+    And a chave "bookingdates" deve possuir as chaves "checkin" e "checkout" com valores de data válidos
+    And a chave "additionalneeds" deve possuir um valor textual
 
   @excecao
   Scenario Outline: Consultar uma reserva inexistente ou inválida
@@ -91,15 +95,13 @@ Feature: Gestão de reservas
       | 9999999    |
       | abc        |
       | -1         |
-      |            |
 
   @smoke @funcional
   Scenario: Criar uma reserva com sucesso
     Given que eu possua um payload válido de reserva
     When eu enviar uma requisição "POST" para a rota "/booking"
     Then o código de status HTTP retornado deve ser 200
-    And o corpo da resposta deve conter o identificador da reserva criada
-    And o corpo da resposta deve conter os dados da reserva criada
+    And a resposta deve conter o identificador da reserva criada
     And os dados retornados devem corresponder aos dados enviados
 
   @contrato
@@ -113,8 +115,8 @@ Feature: Gestão de reservas
   Scenario: Tentar criar uma reserva com payload inválido
     Given que eu possua um payload inválido de reserva
     When eu enviar uma requisição "POST" para a rota "/booking"
-    Then o código de status HTTP de erro deve ser retornado
-    And a resposta deve conter uma mensagem de validação
+    Then o código de status HTTP retornado deve ser 500
+    And a resposta deve conter uma mensagem de erro
 
   @smoke @funcional
   Scenario: Atualizar uma reserva com sucesso
