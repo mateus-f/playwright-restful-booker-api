@@ -4,20 +4,30 @@ export class BookingService {
   }
 
   async getBookings() {
-    return await this.request.get("/booking");
+    return this.request.get("/booking");
   }
 
   async getBookingsWithParams(searchParam) {
-    return await this.request.get("/booking", {
+    return this.request.get("/booking", {
       params: searchParam
     });
   }
 
   async getBookingById(id) {
-    return await this.request.get(`/booking/${id}`, {
+    return this.request.get(`/booking/${id}`, {
       headers: {
-        "accept": "application/json"
+        "Accept": "application/json"
       }
+    });
+  }
+
+  async createBooking(payload) {
+    return this.request.post("/booking", {
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      data: payload
     });
   }
 }
