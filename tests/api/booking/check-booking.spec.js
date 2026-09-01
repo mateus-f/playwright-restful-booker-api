@@ -1,5 +1,7 @@
 import { expect } from "@playwright/test";
 import { test } from "../../../fixtures/api.fixture";
+import { validateSchema } from "../../../utils/schema-validator";
+import { checkBookingSchema } from "../../../schemas/check-booking-schema";
 
 test.describe("Consulta de reserva", () => {
 
@@ -59,40 +61,7 @@ test.describe("Consulta de reserva", () => {
     const checkBookingResponseBody = await checkBookingResponse.json();
 
     await test.step('And o corpo da resposta deve conter as chaves "firstname", "lastname", "totalprice", "depositpaid", "bookingdates" e "additionalneeds"', () => {
-      expect(checkBookingResponseBody).toHaveProperty("firstname");
-      expect(checkBookingResponseBody).toHaveProperty("lastname");
-      expect(checkBookingResponseBody).toHaveProperty("totalprice");
-      expect(checkBookingResponseBody).toHaveProperty("depositpaid");
-      expect(checkBookingResponseBody).toHaveProperty("bookingdates");
-      expect(checkBookingResponseBody).toHaveProperty("additionalneeds");
-    });
-
-    await test.step('And as chaves "firstname" e "lastname" devem possuir valores textuais', () => {
-      expect(typeof checkBookingResponseBody.firstname).toBe("string");
-      expect(typeof checkBookingResponseBody.lastname).toBe("string");
-    });
-
-    await test.step('And a chave "totalprice" deve possuir um valor numérico', () => {
-      expect(typeof checkBookingResponseBody.totalprice).toBe("number");
-    });
-
-    await test.step('And a chave "depositpaid" deve possuir um valor booleano', () => {
-      expect(typeof checkBookingResponseBody.depositpaid).toBe("boolean");
-    });
-
-    await test.step('And a chave "bookingdates" deve possuir as chaves "checkin" e "checkout" com valores de data válidos', () => {
-      expect(typeof checkBookingResponseBody.bookingdates).toBe("object");
-      expect(checkBookingResponseBody.bookingdates).toHaveProperty("checkin");
-      expect(checkBookingResponseBody.bookingdates).toHaveProperty("checkout");
-
-      const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/;
-
-      expect(checkBookingResponseBody.bookingdates.checkin).toMatch(isoDateRegex);
-      expect(checkBookingResponseBody.bookingdates.checkout).toMatch(isoDateRegex);
-    });
-
-    await test.step('And a chave "additionalneeds" deve possuir um valor textual', () => {
-      expect(typeof checkBookingResponseBody.additionalneeds).toBe("string");
+      validateSchema(checkBookingSchema, checkBookingResponseBody);
     });
   });
 
