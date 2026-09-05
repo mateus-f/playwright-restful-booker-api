@@ -30,4 +30,28 @@ export class BookingService {
       data: payload
     });
   }
+
+  async updateBooking(bookingId, payload, authToken = null, hasAuth = true) {
+
+    if (hasAuth) {
+      const authorizationToken = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
+
+      return this.request.put(`/booking/${bookingId}`, {
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          [authToken ? "Cookie" : "Authorization"]: authorizationToken
+        },
+        data: payload
+      });
+    }
+
+    return this.request.put(`/booking/${bookingId}`, {
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      data: payload
+    });
+  }
 }
