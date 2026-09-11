@@ -1,3 +1,5 @@
+import { fakerPT_BR as faker } from "@faker-js/faker";
+
 export class BookingFactory {
 
   static createNameFilter(firstname = "John", lastname = "") {
@@ -24,25 +26,42 @@ export class BookingFactory {
     };
   }
 
-  static createBookingPayload(
-    firstname = "Matew",
-    lastname = "Ferrar",
-    totalPrice = 420,
-    depositPaid = true,
-    checkin = "2026-01-01",
-    checkout = "2026-01-15",
-    additionalneeds = "Double coffee"
-  ) {
-    return {
-      firstname: firstname,
-      lastname: lastname,
-      totalprice: totalPrice,
-      depositpaid: depositPaid,
+  static createBookingPayload(customData = {}) {
+
+    const checkinDate = faker.date.future();
+    const checkoutDays = faker.number.int({ min: 1, max: 30 });
+    const checkoutDate = faker.date.soon({ days: checkoutDays, refDate: checkinDate });
+
+    const defaultPayload = {
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
+      totalprice: faker.number.int({ min: 100, max: 5000 }),
+      depositpaid: faker.datatype.boolean(),
       bookingdates: {
-        checkin: checkin,
-        checkout: checkout
+        checkin: checkinDate.toISOString().split('T')[0],
+        checkout: checkoutDate.toISOString().split('T')[0]
       },
-      additionalneeds: additionalneeds
+      additionalneeds: faker.lorem.words(3)
     };
+
+    return {
+      ...defaultPayload,
+      ...customData,
+      bookingdates: {
+        ...defaultPayload.bookingdates,
+        ...(customData.bookingdates || {})
+      }
+    };
+  }
+
+  static createInvalidBookingPayload() {
+    return {
+      firstname: faker.number.int(),
+      lastname: faker.datatype.boolean(),
+      totalprice: faker.word.sample(),
+      depositpaid: faker.word.verb(),
+      bookingdates: faker.datatype.boolean(),
+      additionalneeds: faker.datatype.boolean()
+    }
   }
 }
