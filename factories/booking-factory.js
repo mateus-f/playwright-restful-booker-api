@@ -27,7 +27,6 @@ export class BookingFactory {
   }
 
   static createBookingPayload(customData = {}) {
-
     const checkinDate = faker.date.future();
     const checkoutDays = faker.number.int({ min: 1, max: 30 });
     const checkoutDate = faker.date.soon({ days: checkoutDays, refDate: checkinDate });
@@ -63,5 +62,17 @@ export class BookingFactory {
       bookingdates: faker.datatype.boolean(),
       additionalneeds: faker.datatype.boolean()
     }
+  }
+
+  static createPartialBookingPayload(customData = {}) {
+    const defaultPayload = {
+      firstname: faker.person.firstName(),
+      totalprice: faker.number.int({ min: 100, max: 5000 })
+    };
+
+    return {
+      ...defaultPayload,
+      ...customData
+    };
   }
 }
