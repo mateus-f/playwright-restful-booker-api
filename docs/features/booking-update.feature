@@ -49,8 +49,8 @@ Feature: Atualização completa de reservas
 
   @excecao
   Scenario: Tentar atualizar uma reserva inexistente
-    Given que eu possua um payload válido de atualização de reserva
+    Given que eu informe um identificador de reserva inexistente
+    And que eu possua um payload válido de atualização de reserva
     And que eu possua um token de autenticação válido
-    And que eu informe um identificador de reserva inexistente
     When eu enviar uma requisição "PUT" para a rota "/booking/{id_reserva}"
     Then o código de status HTTP retornado deve ser 405
