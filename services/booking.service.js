@@ -78,4 +78,19 @@ export class BookingService {
       data: payload
     });
   }
+
+  async deleteBooking(bookingId, authToken = null, hasAuth = true) {
+
+    if (hasAuth) {
+      const authorizationToken = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
+
+      return this.request.delete(`/booking/${bookingId}`, {
+        headers: {
+          [authToken ? "Cookie" : "Authorization"]: authorizationToken
+        }
+      });
+    }
+
+    return this.request.delete(`/booking/${bookingId}`);
+  }
 }
