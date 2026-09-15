@@ -6,6 +6,11 @@ import { createBookingSchema } from "../../../schemas/create-booking-schema";
 
 test.describe("Criação de reservas", () => {
 
+  test.beforeEach(async ({ pingService }) => {
+    const response = await pingService.getPing();
+    expect(response.status()).toBe(201);
+  });
+
   test("Criar uma reserva com sucesso", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService }) => {
 
     const bookingPayload = await test.step("Given que eu possua um payload válido de reserva", () => {

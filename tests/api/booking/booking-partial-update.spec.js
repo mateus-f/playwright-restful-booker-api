@@ -15,13 +15,13 @@ test.describe("Atualização parcial de reservas", () => {
   test("Atualizar parcialmente uma reserva com sucesso", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
-      const bookingListResponse = await bookingService.getBookings();
-      expect(bookingListResponse.status()).toBe(200);
+      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(createBookingResponse.status()).toBe(200);
 
-      const bookingListResponseBody = await bookingListResponse.json();
-      expect(bookingListResponseBody).not.toBeNull();
+      const createBookingResponseBody = await createBookingResponse.json();
+      expect(createBookingResponseBody).toHaveProperty("bookingid");
 
-      return bookingListResponseBody[0].bookingid;
+      return createBookingResponseBody.bookingid;
     });
 
     const bookingResponse = await bookingService.getBookingById(bookingId);
@@ -68,13 +68,13 @@ test.describe("Atualização parcial de reservas", () => {
   test("Validar o contrato da resposta de atualização parcial", ({ tag: ["@contrato"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
-      const bookingListResponse = await bookingService.getBookings();
-      expect(bookingListResponse.status()).toBe(200);
+      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(createBookingResponse.status()).toBe(200);
 
-      const bookingListResponseBody = await bookingListResponse.json();
-      expect(bookingListResponseBody).not.toBeNull();
+      const createBookingResponseBody = await createBookingResponse.json();
+      expect(createBookingResponseBody).toHaveProperty("bookingid");
 
-      return bookingListResponseBody[0].bookingid;
+      return createBookingResponseBody.bookingid;
     });
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
@@ -109,13 +109,13 @@ test.describe("Atualização parcial de reservas", () => {
   test("Tentar atualizar parcialmente uma reserva sem autenticação", ({ tag: ["@seguranca"] }), async ({ bookingService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
-      const bookingListResponse = await bookingService.getBookings();
-      expect(bookingListResponse.status()).toBe(200);
+      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(createBookingResponse.status()).toBe(200);
 
-      const bookingListResponseBody = await bookingListResponse.json();
-      expect(bookingListResponseBody).not.toBeNull();
+      const createBookingResponseBody = await createBookingResponse.json();
+      expect(createBookingResponseBody).toHaveProperty("bookingid");
 
-      return bookingListResponseBody[0].bookingid;
+      return createBookingResponseBody.bookingid;
     });
 
     const validBookingPartialUpdatePayload = await test.step("And que eu possua um payload parcial válido de reserva", () => {
