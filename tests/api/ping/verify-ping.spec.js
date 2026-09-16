@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { test } from "../../../fixtures/api.fixture";
+import { test } from "../../../support/fixtures/api.fixture";
 
 test.describe("Ping", () => {
 

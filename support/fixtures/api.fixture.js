@@ -1,7 +1,7 @@
 import { test as base, expect } from "@playwright/test"
-import { AuthService } from "../services/auth.service";
-import { BookingService } from "../services/booking.service";
-import { PingService } from "../services/ping.service";
+import { AuthService } from "../../services/auth.service";
+import { BookingService } from "../../services/booking.service";
+import { PingService } from "../../services/ping.service";
 
 export const test = base.extend({
 

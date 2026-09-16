@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test";
-import { test } from "../../../fixtures/api.fixture";
-import { AuthFactory } from "../../../factories/auth-factory";
-import { BookingFactory } from "../../../factories/booking-factory";
+import { test } from "../../../support/fixtures/api.fixture";
+import { AuthFactory } from "../../../support/factories/auth-factory";
+import { BookingFactory } from "../../../support/factories/booking-factory";
 
 test.describe("Exclusão de reservas", () => {
 

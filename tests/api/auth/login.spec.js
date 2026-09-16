@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
-import { AuthFactory } from "../../../factories/auth-factory";
-import { test } from "../../../fixtures/api.fixture";
+import { AuthFactory } from "../../../support/factories/auth-factory";
+import { test } from "../../../support/fixtures/api.fixture";
 
 test.describe("Auth", () => {
 

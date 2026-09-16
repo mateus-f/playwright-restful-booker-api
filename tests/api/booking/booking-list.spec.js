@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
-import { test } from "../../../fixtures/api.fixture";
-import { BookingFactory } from "../../../factories/booking-factory";
+import { test } from "../../../support/fixtures/api.fixture";
+import { BookingFactory } from "../../../support/factories/booking-factory";
 
 test.describe("Listagem de ID's de reservas", () => {
 

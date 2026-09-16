@@ -1,8 +1,8 @@
 import { expect } from "@playwright/test";
-import { test } from "../../../fixtures/api.fixture";
-import { validateSchema } from "../../../utils/schema-validator";
-import { checkBookingSchema } from "../../../schemas/check-booking-schema";
-import { BookingFactory } from "../../../factories/booking-factory";
+import { test } from "../../../support/fixtures/api.fixture";
+import { validateSchema } from "../../../support/utils/schema-validator";
+import { checkBookingSchema } from "../../../support/schemas/check-booking-schema";
+import { BookingFactory } from "../../../support/factories/booking-factory";
 
 test.describe("Consulta de reserva", () => {
 

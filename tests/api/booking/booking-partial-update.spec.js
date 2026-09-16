@@ -1,9 +1,9 @@
 import { expect } from "@playwright/test";
-import { test } from "../../../fixtures/api.fixture";
-import { BookingFactory } from "../../../factories/booking-factory";
-import { AuthFactory } from "../../../factories/auth-factory";
-import { validateSchema } from "../../../utils/schema-validator";
-import { partialUpdateBookingSchema } from "../../../schemas/partial-update-booking-schema";
+import { test } from "../../../support/fixtures/api.fixture";
+import { BookingFactory } from "../../../support/factories/booking-factory";
+import { AuthFactory } from "../../../support/factories/auth-factory";
+import { validateSchema } from "../../../support/utils/schema-validator";
+import { partialUpdateBookingSchema } from "../../../support/schemas/partial-update-booking-schema";
 
 test.describe("Atualização parcial de reservas", () => {
 
