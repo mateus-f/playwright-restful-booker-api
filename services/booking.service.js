@@ -3,6 +3,22 @@ export class BookingService {
     this.request = request;
   }
 
+  buildJsonHeaders() {
+    return {
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    };
+  }
+
+  buildAuthHeaders(authToken = null, hasAuth = true) {
+    if (hasAuth) {
+      const authValue = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
+      return { [authToken ? "Cookie" : "Authorization"]: authValue };
+    }
+
+    return {};
+  }
+
   async getBookings() {
     return this.request.get("/booking");
   }
@@ -15,82 +31,40 @@ export class BookingService {
 
   async getBookingById(id) {
     return this.request.get(`/booking/${id}`, {
-      headers: {
-        "Accept": "application/json"
-      }
+      headers: this.buildJsonHeaders()
     });
   }
 
   async createBooking(payload) {
     return this.request.post("/booking", {
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
+      headers: this.buildJsonHeaders(),
       data: payload
     });
   }
 
   async updateBooking(bookingId, payload, authToken = null, hasAuth = true) {
-
-    if (hasAuth) {
-      const authorizationToken = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
-
-      return this.request.put(`/booking/${bookingId}`, {
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          [authToken ? "Cookie" : "Authorization"]: authorizationToken
-        },
-        data: payload
-      });
-    }
-
     return this.request.put(`/booking/${bookingId}`, {
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        ...this.buildJsonHeaders(),
+        ...this.buildAuthHeaders(authToken, hasAuth)
       },
       data: payload
     });
   }
 
   async partialUpdateBooking(bookingId, payload, authToken = null, hasAuth = true) {
-
-    if (hasAuth) {
-      const authorizationToken = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
-
-      return this.request.patch(`/booking/${bookingId}`, {
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          [authToken ? "Cookie" : "Authorization"]: authorizationToken
-        },
-        data: payload
-      });
-    }
-
     return this.request.patch(`/booking/${bookingId}`, {
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        ...this.buildJsonHeaders(),
+        ...this.buildAuthHeaders(authToken, hasAuth)
       },
       data: payload
     });
   }
 
   async deleteBooking(bookingId, authToken = null, hasAuth = true) {
-
-    if (hasAuth) {
-      const authorizationToken = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
-
-      return this.request.delete(`/booking/${bookingId}`, {
-        headers: {
-          [authToken ? "Cookie" : "Authorization"]: authorizationToken
-        }
-      });
-    }
-
-    return this.request.delete(`/booking/${bookingId}`);
+    return this.request.delete(`/booking/${bookingId}`, {
+      headers: this.buildAuthHeaders(authToken, hasAuth)
+    });
   }
 }
