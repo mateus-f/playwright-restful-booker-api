@@ -1,5 +1,6 @@
 export const updateBookingSchema = {
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "firstname": {
       "type": "string"
@@ -15,12 +16,15 @@ export const updateBookingSchema = {
     },
     "bookingdates": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "checkin": {
-          "type": "string"
+          "type": "string",
+          "format": "date"
         },
         "checkout": {
-          "type": "string"
+          "type": "string",
+          "format": "date"
         }
       },
       "required": [
