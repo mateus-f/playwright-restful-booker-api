@@ -164,10 +164,10 @@ test.describe("Atualização de uma reserva", () => {
       return BookingFactory.createBookingPayload();
     });
 
-    const authToken = await test.step("And que eu não informe credenciais de autenticação", () => null);
+    await test.step("And que eu não informe credenciais de autenticação", () => null);
 
     const updateBookingResponse = await test.step(`When eu enviar uma requisição "PUT" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, authToken, false);
+      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, "none");
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 403", () => {
