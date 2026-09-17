@@ -9,13 +9,13 @@ test.describe("Consulta de reserva", () => {
   test("Consultar uma reserva existente", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService }) => {
 
     const bookingId = await test.step("Given que eu possua o identificador de uma reserva existente", async () => {
-      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
-      expect(createBookingResponse.status()).toBe(200);
+      const response = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(response.status()).toBe(200);
 
-      const createBookingResponseBody = await createBookingResponse.json();
-      expect(createBookingResponseBody).toHaveProperty("bookingid");
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("bookingid");
 
-      return createBookingResponseBody.bookingid;
+      return responseBody.bookingid;
     });
 
     const checkBookingResponse = await test.step(`When eu enviar uma requisição "GET" para a rota "/booking/${bookingId}"`, async () => {
@@ -42,13 +42,13 @@ test.describe("Consulta de reserva", () => {
   test("Validar o contrato dos dados da reserva", ({ tag: ["@contrato"] }), async ({ bookingService }) => {
 
     const bookingId = await test.step("Given que eu possua o identificador de uma reserva existente", async () => {
-      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
-      expect(createBookingResponse.status()).toBe(200);
+      const response = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(response.status()).toBe(200);
 
-      const createBookingResponseBody = await createBookingResponse.json();
-      expect(createBookingResponseBody).toHaveProperty("bookingid");
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("bookingid");
 
-      return createBookingResponseBody.bookingid;
+      return responseBody.bookingid;
     });
 
     const checkBookingResponse = await test.step(`When eu enviar uma requisição "GET" para a rota "/booking/${bookingId}"`, async () => {

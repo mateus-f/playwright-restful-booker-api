@@ -20,13 +20,13 @@ test.describe("Atualização de uma reserva", () => {
     });
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
-      const validAuthPayload = AuthFactory.createAdminCredentials();
-      const authResponse = await authService.logIn(validAuthPayload);
-      expect(authResponse.status()).toBe(200);
+      const response = await authService.logIn(AuthFactory.createAdminCredentials());
+      expect(response.status()).toBe(200);
 
-      const authResponseBody = await authResponse.json();
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("token");
 
-      return authResponseBody.token;
+      return responseBody.token;
     });
 
     const validBookingUpdatePayload = await test.step("And que eu possua um payload válido de atualização de reserva", () => {
@@ -34,7 +34,7 @@ test.describe("Atualização de uma reserva", () => {
     });
 
     const updateBookingResponse = await test.step(`When eu enviar uma requisição "PUT" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, authToken);
+      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, "cookie", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 200", () => {
@@ -67,13 +67,13 @@ test.describe("Atualização de uma reserva", () => {
     });
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
-      const validAuthPayload = AuthFactory.createAdminCredentials();
-      const authResponse = await authService.logIn(validAuthPayload);
-      expect(authResponse.status()).toBe(200);
+      const response = await authService.logIn(AuthFactory.createAdminCredentials());
+      expect(response.status()).toBe(200);
 
-      const authResponseBody = await authResponse.json();
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("token");
 
-      return authResponseBody.token;
+      return responseBody.token;
     });
 
     const validBookingUpdatePayload = await test.step("And que eu possua um payload válido de atualização de reserva", () => {
@@ -81,7 +81,7 @@ test.describe("Atualização de uma reserva", () => {
     });
 
     const updateBookingResponse = await test.step(`When eu enviar uma requisição "PUT" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, authToken);
+      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, "cookie", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 200", () => {
@@ -97,12 +97,9 @@ test.describe("Atualização de uma reserva", () => {
 
   test("Atualizar uma reserva utilizando autenticação suportada", ({ tag: ["@seguranca"] }), async ({ bookingService, authService }) => {
 
-    const autheticationTypes = [
-      { type: "cookie", hasAuthToken: false },
-      { type: "basic", hasAuthToken: true }
-    ];
+    const authenticationTypes = ["cookie", "basic"];
 
-    for (const authType of autheticationTypes) {
+    for (const authenticationType of authenticationTypes) {
       const bookingId = await test.step("Given que eu possua o identificador de uma reserva existente", async () => {
         const bookingListResponse = await bookingService.getBookings();
         expect(bookingListResponse.status()).toBe(200);
@@ -117,18 +114,20 @@ test.describe("Atualização de uma reserva", () => {
         return BookingFactory.createBookingPayload();
       });
 
-      const authToken = !authType.hasAuthToken ? null : await test.step(`And que eu utilize autenticação por "${authType.type}"`, async () => {
-        const validAuthPayload = AuthFactory.createAdminCredentials();
-        const authResponse = await authService.logIn(validAuthPayload);
-        expect(authResponse.status()).toBe(200);
+      const authToken = authenticationType === "cookie"
+        ? await test.step(`And que eu utilize autenticação por "${authenticationType}"`, async () => {
+          const response = await authService.logIn(AuthFactory.createAdminCredentials());
+          expect(response.status()).toBe(200);
 
-        const authResponseBody = await authResponse.json();
+          const responseBody = await response.json();
+          expect(responseBody).toHaveProperty("token");
 
-        return authResponseBody.token;
-      });
+          return responseBody.token;
+        })
+        : null;
 
       const updateBookingResponse = await test.step(`When eu enviar uma requisição "PUT" para a rota "/booking/${bookingId}"`, async () => {
-        return bookingService.updateBooking(bookingId, validBookingUpdatePayload, authToken);
+        return bookingService.updateBooking(bookingId, validBookingUpdatePayload, authenticationType, authToken);
       });
 
       await test.step("Then o código de status HTTP retornado deve ser 200", () => {
@@ -193,17 +192,17 @@ test.describe("Atualização de uma reserva", () => {
     });
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
-      const validAuthPayload = AuthFactory.createAdminCredentials();
-      const authResponse = await authService.logIn(validAuthPayload);
-      expect(authResponse.status()).toBe(200);
+      const response = await authService.logIn(AuthFactory.createAdminCredentials());
+      expect(response.status()).toBe(200);
 
-      const authResponseBody = await authResponse.json();
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("token");
 
-      return authResponseBody.token;
+      return responseBody.token;
     });
 
     const updateBookingResponse = await test.step(`When eu enviar uma requisição "PUT" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, authToken);
+      return bookingService.updateBooking(bookingId, validBookingUpdatePayload, "cookie", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 405", () => {

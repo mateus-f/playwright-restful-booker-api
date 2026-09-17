@@ -10,26 +10,26 @@ test.describe("Atualização parcial de reservas", () => {
   test("Atualizar parcialmente uma reserva com sucesso", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
-      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
-      expect(createBookingResponse.status()).toBe(200);
+      const response = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(response.status()).toBe(200);
 
-      const createBookingResponseBody = await createBookingResponse.json();
-      expect(createBookingResponseBody).toHaveProperty("bookingid");
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("bookingid");
 
-      return createBookingResponseBody.bookingid;
+      return responseBody.bookingid;
     });
 
     const bookingResponse = await bookingService.getBookingById(bookingId);
     const bookingResponseBody = await bookingResponse.json();
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
-      const validAuthPayload = AuthFactory.createAdminCredentials();
-      const authResponse = await authService.logIn(validAuthPayload);
-      expect(authResponse.status()).toBe(200);
+      const response = await authService.logIn(AuthFactory.createAdminCredentials());
+      expect(response.status()).toBe(200);
 
-      const authResponseBody = await authResponse.json();
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("token");
 
-      return authResponseBody.token;
+      return responseBody.token;
     });
 
     const validBookingPartialUpdatePayload = await test.step("And que eu possua um payload parcial válido de reserva", () => {
@@ -37,7 +37,7 @@ test.describe("Atualização parcial de reservas", () => {
     });
 
     const partialUpdateBookingResponse = await test.step(`When eu enviar uma requisição "PATCH" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, authToken);
+      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, "cookie", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 200", () => {
@@ -63,23 +63,23 @@ test.describe("Atualização parcial de reservas", () => {
   test("Validar o contrato da resposta de atualização parcial", ({ tag: ["@contrato"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
-      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
-      expect(createBookingResponse.status()).toBe(200);
+      const response = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(response.status()).toBe(200);
 
-      const createBookingResponseBody = await createBookingResponse.json();
-      expect(createBookingResponseBody).toHaveProperty("bookingid");
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("bookingid");
 
-      return createBookingResponseBody.bookingid;
+      return responseBody.bookingid;
     });
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
-      const validAuthPayload = AuthFactory.createAdminCredentials();
-      const authResponse = await authService.logIn(validAuthPayload);
-      expect(authResponse.status()).toBe(200);
+      const response = await authService.logIn(AuthFactory.createAdminCredentials());
+      expect(response.status()).toBe(200);
 
-      const authResponseBody = await authResponse.json();
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("token");
 
-      return authResponseBody.token;
+      return responseBody.token;
     });
 
     const validBookingPartialUpdatePayload = await test.step("And que eu possua um payload parcial válido de reserva", () => {
@@ -87,7 +87,7 @@ test.describe("Atualização parcial de reservas", () => {
     });
 
     const partialUpdateBookingResponse = await test.step(`When eu enviar uma requisição "PATCH" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, authToken);
+      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, "cookie", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 200", () => {
@@ -104,13 +104,13 @@ test.describe("Atualização parcial de reservas", () => {
   test("Tentar atualizar parcialmente uma reserva sem autenticação", ({ tag: ["@seguranca"] }), async ({ bookingService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
-      const createBookingResponse = await bookingService.createBooking(BookingFactory.createBookingPayload());
-      expect(createBookingResponse.status()).toBe(200);
+      const response = await bookingService.createBooking(BookingFactory.createBookingPayload());
+      expect(response.status()).toBe(200);
 
-      const createBookingResponseBody = await createBookingResponse.json();
-      expect(createBookingResponseBody).toHaveProperty("bookingid");
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("bookingid");
 
-      return createBookingResponseBody.bookingid;
+      return responseBody.bookingid;
     });
 
     const validBookingPartialUpdatePayload = await test.step("And que eu possua um payload parcial válido de reserva", () => {
@@ -120,7 +120,7 @@ test.describe("Atualização parcial de reservas", () => {
     const authToken = await test.step("And que eu não informe credenciais de autenticação", async () => null);
 
     const partialUpdateBookingResponse = await test.step(`When eu enviar uma requisição "PATCH" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, authToken, false);
+      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, "none", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 403", () => {
@@ -141,13 +141,13 @@ test.describe("Atualização parcial de reservas", () => {
     });
 
     const authToken = await test.step("And que eu possua um token de autenticação válido", async () => {
-      const validAuthPayload = AuthFactory.createAdminCredentials();
-      const authResponse = await authService.logIn(validAuthPayload);
-      expect(authResponse.status()).toBe(200);
+      const response = await authService.logIn(AuthFactory.createAdminCredentials());
+      expect(response.status()).toBe(200);
 
-      const authResponseBody = await authResponse.json();
+      const responseBody = await response.json();
+      expect(responseBody).toHaveProperty("token");
 
-      return authResponseBody.token;
+      return responseBody.token;
     });
 
     const validBookingPartialUpdatePayload = await test.step("And que eu possua um payload parcial válido de reserva", () => {
@@ -155,7 +155,7 @@ test.describe("Atualização parcial de reservas", () => {
     });
 
     const partialUpdateBookingResponse = await test.step(`When eu enviar uma requisição "PATCH" para a rota "/booking/${bookingId}"`, async () => {
-      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, authToken);
+      return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, "cookie", authToken);
     });
 
     await test.step("Then o código de status HTTP retornado deve ser 403", () => {

@@ -10,10 +10,17 @@ export class BookingService {
     };
   }
 
-  buildAuthHeaders(authToken = null, hasAuth = true) {
-    if (hasAuth) {
-      const authValue = authToken ? `token=${authToken}` : "Basic YWRtaW46cGFzc3dvcmQxMjM=";
-      return { [authToken ? "Cookie" : "Authorization"]: authValue };
+  buildAuthHeaders(authType, authToken = null) {
+    if (authType === "cookie") {
+      return {
+        "Cookie": `token=${authToken}`,
+      }
+    }
+
+    if (authType === "basic") {
+      return {
+        "Authorization": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
+      }
     }
 
     return {};
@@ -42,29 +49,29 @@ export class BookingService {
     });
   }
 
-  async updateBooking(bookingId, payload, authToken = null, hasAuth = true) {
+  async updateBooking(bookingId, payload, authType = "none", authToken = null) {
     return this.request.put(`/booking/${bookingId}`, {
       headers: {
         ...this.buildJsonHeaders(),
-        ...this.buildAuthHeaders(authToken, hasAuth)
+        ...this.buildAuthHeaders(authType, authToken)
       },
       data: payload
     });
   }
 
-  async partialUpdateBooking(bookingId, payload, authToken = null, hasAuth = true) {
+  async partialUpdateBooking(bookingId, payload, authType = "none", authToken = null) {
     return this.request.patch(`/booking/${bookingId}`, {
       headers: {
         ...this.buildJsonHeaders(),
-        ...this.buildAuthHeaders(authToken, hasAuth)
+        ...this.buildAuthHeaders(authType, authToken)
       },
       data: payload
     });
   }
 
-  async deleteBooking(bookingId, authToken = null, hasAuth = true) {
+  async deleteBooking(bookingId, authType = "none", authToken = null) {
     return this.request.delete(`/booking/${bookingId}`, {
-      headers: this.buildAuthHeaders(authToken, hasAuth)
+      headers: this.buildAuthHeaders(authType, authToken)
     });
   }
 }
