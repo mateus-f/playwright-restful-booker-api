@@ -158,7 +158,7 @@ test.describe("Atualização parcial de reservas", () => {
       return bookingService.partialUpdateBooking(bookingId, validBookingPartialUpdatePayload, "cookie", authToken);
     });
 
-    await test.step("Then o código de status HTTP retornado deve ser 403", () => {
+    await test.step("Then o código de status HTTP retornado deve ser 405", () => {
       expect(partialUpdateBookingResponse.status()).toBe(405);
     });
   })
