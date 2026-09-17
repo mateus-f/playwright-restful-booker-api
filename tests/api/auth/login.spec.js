@@ -80,8 +80,9 @@ test.describe("Auth", () => {
         expect(response.status()).toBe(200);
       });
 
-      await test.step('And a resposta deve conter a mensagem de erro "Bad credentials"', () => {
-        expect(response.status()).toBe(200);
+      await test.step('And a resposta deve conter a mensagem de erro "Bad credentials"', async () => {
+        const responseBody = await response.json();
+        expect(responseBody).toHaveProperty("reason", "Bad credentials");
       });
     })
   });
