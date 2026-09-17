@@ -5,11 +5,6 @@ import { BookingFactory } from "../../../support/factories/booking-factory";
 
 test.describe("Exclusão de reservas", () => {
 
-  test.beforeEach(async ({ pingService }) => {
-    const response = await pingService.getPing();
-    expect(response.status()).toBe(201);
-  });
-
   test("Excluir uma reserva com sucesso", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {

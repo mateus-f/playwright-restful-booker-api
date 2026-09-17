@@ -12,11 +12,6 @@ test.describe("Auth", () => {
     AuthFactory.createCredentials(),
   ]
 
-  test.beforeEach(async ({ pingService }) => {
-    const response = await pingService.getPing();
-    expect(response.status()).toBe(201);
-  });
-
   test("Gerar token com credenciais válidas", { tag: ["@smoke", "@funcional"] }, async ({ authService }) => {
 
     const payload = await test.step("Given que eu possua um payload válido de autenticação", () => {

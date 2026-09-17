@@ -7,11 +7,6 @@ import { updateBookingSchema } from "../../../support/schemas/update-booking-sch
 
 test.describe("Atualização de uma reserva", () => {
 
-  test.beforeEach(async ({ pingService }) => {
-    const response = await pingService.getPing();
-    expect(response.status()).toBe(201);
-  });
-
   test("Atualizar uma reserva com sucesso", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua o identificador de uma reserva existente", async () => {

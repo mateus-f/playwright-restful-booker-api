@@ -4,11 +4,6 @@ import { BookingFactory } from "../../../support/factories/booking-factory";
 
 test.describe("Listagem de ID's de reservas", () => {
 
-  test.beforeEach(async ({ pingService }) => {
-    const response = await pingService.getPing();
-    expect(response.status()).toBe(201);
-  });
-
   test("Consultar todos os identificadores de reservas", { tag: ["@smoke", "@funcional"] }, async ({ bookingService }) => {
 
     await test.step("Given que eu possua uma consulta válida de identificadores de reservas", () => { });

@@ -15,5 +15,15 @@ export const test = base.extend({
 
   pingService: async ({ request }, use) => {
     await use(new PingService(request));
-  }
+  },
+
+  apiAvailable: [
+    async ({ pingService }, use) => {
+      const response = await pingService.getPing();
+      expect(response.status(), "A API Restful Booker deve estar disponível").toBe(201);
+
+      await use();
+    },
+    { auto: true }
+  ],
 });

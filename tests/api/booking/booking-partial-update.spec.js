@@ -7,11 +7,6 @@ import { partialUpdateBookingSchema } from "../../../support/schemas/partial-upd
 
 test.describe("Atualização parcial de reservas", () => {
 
-  test.beforeEach(async ({ pingService }) => {
-    const response = await pingService.getPing();
-    expect(response.status()).toBe(201);
-  });
-
   test("Atualizar parcialmente uma reserva com sucesso", ({ tag: ["@smoke", "@funcional"] }), async ({ bookingService, authService }) => {
 
     const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
