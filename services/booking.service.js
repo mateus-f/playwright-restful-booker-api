@@ -22,8 +22,11 @@ export class BookingService {
         "Authorization": "Basic YWRtaW46cGFzc3dvcmQxMjM=",
       }
     }
+    if (authType === "none") {
+      return {};
+    }
 
-    return {};
+    throw new Error(`Tipo de autenticação inválido: ${authType}`);
   }
 
   async getBookings() {
