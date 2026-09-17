@@ -43,12 +43,9 @@ test.describe("Exclusão de reservas", () => {
 
   test("Excluir uma reserva utilizando autenticação suportada", ({ tag: ["@seguranca"] }), async ({ bookingService, authService }) => {
 
-    const authenticationTypes = [
-      { type: "cookie" },
-      { type: "basic" }
-    ];
+    const authenticationTypes = ["cookie", "basic"];
 
-    for (const authentication of authenticationTypes) {
+    for (const authenticationType of authenticationTypes) {
       const bookingId = await test.step("Given que eu possua um identificador de uma reserva existente", async () => {
         const response = await bookingService.createBooking(BookingFactory.createBookingPayload());
         expect(response.status()).toBe(200);
@@ -59,8 +56,8 @@ test.describe("Exclusão de reservas", () => {
         return responseBody.bookingid;
       });
 
-      const authToken = authentication.type === "cookie"
-        ? await test.step(`And que eu utilize autenticação por "${authentication.type}"`, async () => {
+      const authToken = authenticationType === "cookie"
+        ? await test.step(`And que eu utilize autenticação por "${authenticationType}"`, async () => {
           const response = await authService.logIn(AuthFactory.createAdminCredentials());
           expect(response.status()).toBe(200);
 
@@ -71,7 +68,7 @@ test.describe("Exclusão de reservas", () => {
         }) : null;
 
       const deleteBookingResponse = await test.step(`When eu enviar uma requisição "DELETE" para a rota "/booking/${bookingId}"`, async () => {
-        return bookingService.deleteBooking(bookingId, authentication.type, authToken);
+        return bookingService.deleteBooking(bookingId, authenticationType, authToken);
       });
 
       await test.step("Then o código de status HTTP retornado deve ser 201", () => {
