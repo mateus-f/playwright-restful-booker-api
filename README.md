@@ -140,7 +140,7 @@ Arquivos de schema:
 - [support/schemas/update-booking-schema.js](support/schemas/update-booking-schema.js)
 - [support/schemas/partial-update-booking-schema.js](support/schemas/partial-update-booking-schema.js)
 
-Essa camada garante que aAPI seja validada não apenas pelo status code, mas também pela estrutura e integridade dos dados retornados.
+Essa camada garante que a API seja validada não apenas pelo status code, mas também pela estrutura e integridade dos dados retornados.
 
 #### Testes e BDD
 
@@ -326,7 +326,7 @@ npx playwright test --debug
 
 O projeto gera relatório HTML do Playwright, permitindo análise visual de execução, falhas, traces e evidências de teste.
 
-Para abrir o relatório:
+O relatório pode ser visualizado localmente com:
 
 ```bash
 npx playwright show-report
@@ -341,7 +341,18 @@ A pipeline inclui:
 3. instalação das dependências;
 4. execução dos testes;
 5. publicação do relatório HTML como artifact;
-6. retenção de evidências para investigação posterior.
+6. publicação do relatório HTML no GitHub Pages após pushes na branch principal;
+7. retenção de evidências para investigação posterior.
+
+### Relatório no GitHub Pages
+
+Após a execução do workflow em um `push` para `main`, o relatório fica disponível na URL de Pages do repositório, normalmente:
+
+```text
+https://mateus-f.github.io/playwright-restful-booker-api/
+```
+
+Em pull requests, o workflow gera o artifact do relatório sem publicar uma versão no Pages. O deploy utiliza **GitHub Actions** como fonte de publicação do ambiente **GitHub Pages**.
 
 ## Competências demonstradas
 
