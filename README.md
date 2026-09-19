@@ -1,13 +1,10 @@
 # Playwright API Automation - Restful Booker
 
 [![Playwright](https://img.shields.io/badge/Playwright-API%20Testing-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ESM-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Node.js](https://img.shields.io/badge/Node.js-LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=githubactions&logoColor=white)](https://github.com/features/actions)
 [![AJV](https://img.shields.io/badge/Contract%20Testing-AJV-orange)](https://ajv.js.org/)
 [![Faker](https://img.shields.io/badge/Test%20Data-Faker.js-FF6B6B)](https://fakerjs.dev/)
-[![QA Automation](https://img.shields.io/badge/QA-Automation-6C63FF)](https://en.wikipedia.org/wiki/Test_automation)
-[![API Testing](https://img.shields.io/badge/Testing-REST%20API-009688)](https://en.wikipedia.org/wiki/API_testing)
 
 Este projeto é uma suíte de automação de testes de API REST desenvolvida com Playwright Test para validar a API pública [Restful Booker](https://restful-booker.herokuapp.com).
 
@@ -15,17 +12,17 @@ Ele foi estruturado para demonstrar mais do que execução de testes: a proposta
 
 ## Sumário
 
-- [Visão geral](#visao-geral)
+- [Visão geral](#visão-geral)
 - [Objetivos do projeto](#objetivos-do-projeto)
-- [Arquitetura da solução](#arquitetura-da-solucao)
-- [Estratégia de testes](#estrategia-de-testes)
+- [Arquitetura da solução](#arquitetura-da-solução)
+- [Estratégia de testes](#estratégia-de-testes)
 - [Cobertura de testes](#cobertura-de-testes)
-- [Validação de contrato](#validacao-de-contrato)
-- [Estrutura do repositório](#estrutura-do-repositorio)
-- [Tags de execução](#tags-de-execucao)
+- [Validação de contrato](#validação-de-contrato)
+- [Estrutura do repositório](#estrutura-do-repositório)
+- [Tags de execução](#tags-de-execução)
 - [Como executar](#como-executar)
-- [Relatório HTML e CI/CD](#relatorio-html-e-cicd)
-- [Competências demonstradas](#competencias-demonstradas)
+- [Relatório HTML e CI/CD](#relatório-html-e-cicd)
+- [Competências demonstradas](#competências-demonstradas)
 
 ## Visão geral
 
